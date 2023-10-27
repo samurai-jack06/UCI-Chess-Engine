@@ -9,13 +9,13 @@ public class MoveOrderer
 {
     struct MoveScore : IComparable<MoveScore>
     {
-        public MoveScore(Move Move, byte Score)
+        public MoveScore(Move Move, int Score)
         {
             move = Move;
             score = Score;
         }
         public Move move;
-        public byte score;
+        public int score;
 
         public int CompareTo(MoveScore other)
         {
@@ -53,7 +53,7 @@ public class MoveOrderer
                 if ((board.kings & (1UL << move.toSquare)) != 0) victim = PieceType.King;
 
                 if (attacker == PieceType.Pawn && victim != PieceType.Pawn) moveScore.score += 50;
-                else moveScore.score += (byte)(((int)victim - (int)attacker) * 20);
+                else moveScore.score += (((int)victim - (int)attacker) * 20);
             }
 
             if (move.moveType == MoveType.Promotion) moveScore.score += 50;
