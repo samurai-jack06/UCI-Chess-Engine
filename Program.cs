@@ -10,7 +10,6 @@ using static TranspositionTable;
 using System.Diagnostics;
 using System.Data;
 
-
 public static class Program
 {
     public static void Main(string[] args)
