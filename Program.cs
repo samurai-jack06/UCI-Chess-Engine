@@ -97,7 +97,7 @@ public static class Program
 
                 allocatedTime = time + inc;
 
-                Move bestMove = search.SearchBestMove(128, (int)allocatedTime);
+                Move bestMove = search.SearchBestMove(128, allocatedTime);
                 Console.WriteLine("bestmove " + MoveToString(bestMove));
             }
         }

@@ -18,7 +18,7 @@ public class Search
     public TranspositionTable tt;
     Move bestMoveRoot;
 
-    int maxTime;
+    double maxTime;
     int nodes;
 
     bool searchCancelled;
@@ -35,17 +35,17 @@ public class Search
         maxTime = 0;
     }
 
-    public Move SearchBestMove(int maxDepth, int time)
+    public Move SearchBestMove(int maxDepth, double time)
     {
         nodes = 0;
         maxTime = time;
         searchCancelled = false;
-        stopwatch.Restart();
-
         Move move = new();
         int depth = 1;
 
-        while ((stopwatch.ElapsedMilliseconds < time) && (depth < maxDepth))
+        stopwatch.Restart();
+
+        while (stopwatch.ElapsedMilliseconds < maxTime && (depth < maxDepth))
         {
             int eval = Negamax(board, depth, 0, -INFINITY, INFINITY);
             if (!searchCancelled)
@@ -89,12 +89,6 @@ public class Search
 
             score = -Qsearch(board, -beta, -alpha);
             board.UnmakeMove();
-
-            if (((nodes % 8192) == 0) && (stopwatch.ElapsedMilliseconds > maxTime))
-            {
-                CancelSearch();
-                return INFINITY;
-            }
 
             if (score > bestScore) bestScore = score;
             if (score >= beta) return score;
