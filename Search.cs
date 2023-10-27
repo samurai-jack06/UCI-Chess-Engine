@@ -62,8 +62,11 @@ public class Search
 
     public int Qsearch(Board board, int alpha, int beta)
     {
+        int bestScore = -INFINITY;
+
         int score = evaluation.Evaluate(board);
 
+        if (score > bestScore) bestScore = score;
         if (score >= beta) return score;
         if (score > alpha) alpha = score;
 
@@ -87,11 +90,12 @@ public class Search
             score = -Qsearch(board, -beta, -alpha);
             board.UnmakeMove();
 
+            if (score > bestScore) bestScore = score;
             if (score >= beta) return score;
             if (score > alpha) alpha = score;
         }
 
-        return score;
+        return bestScore;
     }
 
     public int Negamax(Board board, int depth, int ply, int alpha, int beta)
