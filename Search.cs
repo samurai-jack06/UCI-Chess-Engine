@@ -118,7 +118,7 @@ public class Search
         Span<Move> moves = stackalloc Move[256];
         board.GenMoves(ref moves, capturesOnly: false);
 
-        //moveOrderer.OrderMoves(board, ref moves);
+        moveOrderer.OrderMoves(board, ref moves);
 
         Move bestMove = new();
         int bestScore = -INFINITY;
