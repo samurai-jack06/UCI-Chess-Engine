@@ -117,7 +117,7 @@ public class Search
         }
 
 
-        if (depth == 0) return evaluation.Evaluate(board);
+        if (depth == 0) return Qsearch(board, alpha, beta);
 
         Span<Move> moves = stackalloc Move[256];
         board.GenMoves(ref moves, capturesOnly: false);
