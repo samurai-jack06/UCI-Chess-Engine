@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.Diagnostics.Contracts;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,5 +65,13 @@ public class MoveOrderer
 
         ordered.Sort();
         for (int i = 0; i < moves.Length; i++) moves[i] = ordered[i].move;
+    }
+
+    public void AddTTMove(Board board, ref Span<Move> orderedMoves, ref Span<Move> moves, Move ttMove)
+    {
+        OrderMoves(board, ref moves);
+
+        orderedMoves[0] = ttMove;
+        for (int i = 0; i < moves.Length; i++) orderedMoves[i + 1] = moves[i];
     }
 }

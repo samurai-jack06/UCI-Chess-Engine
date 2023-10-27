@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -71,6 +72,7 @@ public class Search
         if (score > alpha) alpha = score;
 
         Span<Move> captures = stackalloc Move[256];
+
         board.GenMoves(ref captures, capturesOnly: true);
 
         moveOrderer.OrderMoves(board, ref captures);
@@ -114,21 +116,31 @@ public class Search
             else if ((entry.scoreFlag == ScoreFlag.Lower_bound) && (entry.score >= beta)) return entry.score;
         }
 
-
         if (depth == 0) return Qsearch(board, alpha, beta);
 
         Span<Move> moves = stackalloc Move[256];
         board.GenMoves(ref moves, capturesOnly: false);
 
-        moveOrderer.OrderMoves(board, ref moves);
+        int length = moves.Length;
+        bool ttMove = false;
+
+        Span<Move> allMoves = stackalloc Move[moves.Length + 1];
+
+        if (entry.zobristHash == zobristHash && entry.depth >= depth && entry.bestMove.moveType != MoveType.Invalid)
+        {
+            moveOrderer.AddTTMove(board, ref allMoves, ref moves, entry.bestMove);
+            ttMove = true;
+            length++;
+        }
+        else moveOrderer.OrderMoves(board, ref moves);
 
         Move bestMove = new();
         int bestScore = -INFINITY;
         int legalMovesPlayed = 0;
 
-        for (int i = 0; i < moves.Length; i++)
+        for (int i = 0; i < length; i++)
         {
-            Move move = moves[i];
+            Move move = ttMove ? allMoves[i] : moves[i];
 
             if (!board.MakeMove(move))
             {

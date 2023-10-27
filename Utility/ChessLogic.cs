@@ -54,7 +54,7 @@ public static class ChessLogic
         }
 
         public PromoType promoType;
-        public MoveType moveType;
+        public MoveType moveType = MoveType.Invalid;
         public byte fromSquare;
         public byte toSquare;
     }
