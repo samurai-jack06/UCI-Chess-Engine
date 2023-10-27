@@ -115,7 +115,7 @@ public static class Program
 
     public static void RespondUCI()
     {
-        Console.WriteLine("id name v1.0.0-a");
+        Console.WriteLine("id name v0.1.0-a");
         Console.WriteLine("id author samurai jack");
         Console.WriteLine("uciok");
     }
