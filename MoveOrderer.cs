@@ -52,8 +52,7 @@ public class MoveOrderer
                 if ((board.queens & (1UL << move.toSquare)) != 0) victim = PieceType.Queen;
                 if ((board.kings & (1UL << move.toSquare)) != 0) victim = PieceType.King;
 
-                if (attacker == PieceType.Pawn && victim != PieceType.Pawn) moveScore.score += 50;
-                else moveScore.score += (byte)(((int)victim - (int)attacker) * 20);
+                moveScore.score += (byte)(((int)victim - (int)attacker) * 20);
             }
 
             if (move.moveType == MoveType.Promotion) moveScore.score += 50;

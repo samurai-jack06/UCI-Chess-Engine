@@ -90,6 +90,12 @@ public class Search
             score = -Qsearch(board, -beta, -alpha);
             board.UnmakeMove();
 
+            if (((nodes % 8192) == 0) && (stopwatch.ElapsedMilliseconds > maxTime))
+            {
+                CancelSearch();
+                return INFINITY;
+            }
+
             if (score > bestScore) bestScore = score;
             if (score >= beta) return score;
             if (score > alpha) alpha = score;
