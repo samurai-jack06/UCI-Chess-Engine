@@ -87,17 +87,11 @@ public class Search
             score = -Qsearch(board, -beta, -alpha);
             board.UnmakeMove();
 
-            if ((nodes % 8192) == 0 && stopwatch.ElapsedMilliseconds > maxTime)
-            {
-                CancelSearch();
-                return 0;
-            }
-
             if (score >= beta) return score;
             if (score > alpha) alpha = score;
         }
 
-        return alpha;
+        return score;
     }
 
     public int Negamax(Board board, int depth, int ply, int alpha, int beta)
