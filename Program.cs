@@ -99,6 +99,7 @@ public static class Program
 
                 Move bestMove = search.SearchBestMove(128, (int)allocatedTime);
                 Console.WriteLine("bestmove " + MoveToString(bestMove));
+                Console.WriteLine("info depth " + search.Depth + " nodes " + search.nodes + " score cp " + search.bestMoveRootScore);
             }
         }
     }
