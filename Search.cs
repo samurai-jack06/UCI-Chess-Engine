@@ -18,7 +18,7 @@ public class Search
     public TranspositionTable tt;
     Move bestMoveRoot;
 
-    int maxTime;
+    double maxTime;
     int nodes;
 
     bool searchCancelled;
@@ -35,15 +35,15 @@ public class Search
         maxTime = 0;
     }
 
-    public Move SearchBestMove(int maxDepth, int time)
+    public Move SearchBestMove(int maxDepth, double time)
     {
         nodes = 0;
         maxTime = time;
         searchCancelled = false;
-        stopwatch.Restart();
-
         Move move = new();
         int depth = 1;
+
+        stopwatch.Restart();
 
         while ((stopwatch.ElapsedMilliseconds < time) && (depth < maxDepth))
         {
@@ -58,46 +58,6 @@ public class Search
 
         stopwatch.Stop();
         return move;
-    }
-
-    public int Qsearch(Board board, int alpha, int beta)
-    {
-        int score = evaluation.Evaluate(board);
-
-        if (score >= beta) return score;
-        if (score > alpha) alpha = score;
-
-        Span<Move> captures = stackalloc Move[256];
-        board.GenMoves(ref captures, capturesOnly: true);
-
-        moveOrderer.OrderMoves(board, ref captures);
-
-        for (int i = 0; i < captures.Length; i++)
-        {
-            Move move = captures[i];
-
-            if (!board.MakeMove(move))
-            {
-                board.UnmakeMove();
-                continue;
-            }
-
-            nodes++;
-
-            score = -Qsearch(board, -beta, -alpha);
-            board.UnmakeMove();
-
-            if ((nodes % 8192) == 0 && stopwatch.ElapsedMilliseconds > maxTime)
-            {
-                CancelSearch();
-                return 0;
-            }
-
-            if (score >= beta) return score;
-            if (score > alpha) alpha = score;
-        }
-
-        return alpha;
     }
 
     public int Negamax(Board board, int depth, int ply, int alpha, int beta)
