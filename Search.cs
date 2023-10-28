@@ -126,7 +126,7 @@ public class Search
 
         Span<Move> allMoves = stackalloc Move[moves.Length + 1];
 
-        if (entry.zobristHash == zobristHash && entry.depth >= depth && entry.bestMove.moveType != MoveType.Invalid)
+        if (entry.zobristHash == zobristHash  && entry.bestMove.moveType != MoveType.Invalid)
         {
             moveOrderer.AddTTMove(board, ref allMoves, ref moves, entry.bestMove);
             ttMove = true;
