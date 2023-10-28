@@ -92,7 +92,7 @@ public static class ChessLogic
 
     public static string startFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
-    public static int INFINITY = 1000000000;
+    public static int INFINITY = 32000;
     public static int INVALID_SQUARE = 99;
 
     public static int FILE_ONE = 0, FILE_TWO = 1, FILE_THREE = 2, FILE_FOUR = 3, FILE_FIVE = 4, FILE_SIX = 5, FILE_SEVEN = 6, FILE_EIGHT = 7;
