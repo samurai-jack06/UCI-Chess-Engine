@@ -476,11 +476,16 @@ public class Board
 
     public bool IsLegal(Move move)
     {
-        MakeMove(move);
-        bool check = IsKingInCheck();
-        UnmakeMove();
-
-        return !check;
+        if (!MakeMove(move))
+        {
+            UnmakeMove();
+            return false;
+        }
+        else
+        {
+            UnmakeMove();
+            return true;
+        }
     }
 
     public bool IsKingInCheck()
