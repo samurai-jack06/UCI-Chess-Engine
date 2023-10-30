@@ -29,7 +29,7 @@ public class Board
         ParseFen(fen);
     }
 
-    public void GenMoves(ref Span<Move> moves, bool capturesOnly)
+    public void GenMoves(ref Span<Move> moves, bool captures)
     {
         int moveIndex = 0;
         ulong friendlyPieces = sideToMove == Color.White ? whitePieces : blackPieces;
@@ -39,16 +39,16 @@ public class Board
             byte square = PopLSB(ref friendlyPieces);
             ulong squareBoard = 1UL << square;
 
-            if ((pawns & squareBoard) != 0) GenPawnMoves(this, square, ref moves, ref moveIndex, capturesOnly);
-            else if ((knights & squareBoard) != 0) GenKnightMoves(this, square, ref moves, ref moveIndex, capturesOnly);
-            else if ((bishops & squareBoard) != 0) GenSlidingMoves(this, square, ref moves, ref moveIndex, isRook: false, capturesOnly);
-            else if ((rooks & squareBoard) != 0) GenSlidingMoves(this, square, ref moves, ref moveIndex, isRook: true, capturesOnly);
+            if ((pawns & squareBoard) != 0) GenPawnMoves(this, square, ref moves, ref moveIndex, captures);
+            else if ((knights & squareBoard) != 0) GenKnightMoves(this, square, ref moves, ref moveIndex, captures);
+            else if ((bishops & squareBoard) != 0) GenSlidingMoves(this, square, ref moves, ref moveIndex, isRook: false, captures);
+            else if ((rooks & squareBoard) != 0) GenSlidingMoves(this, square, ref moves, ref moveIndex, isRook: true, captures);
             else if ((queens & squareBoard) != 0)
             {
-                GenSlidingMoves(this, square, ref moves, ref moveIndex, isRook: false, capturesOnly);
-                GenSlidingMoves(this, square, ref moves, ref moveIndex, isRook: true, capturesOnly);
+                GenSlidingMoves(this, square, ref moves, ref moveIndex, isRook: false, captures);
+                GenSlidingMoves(this, square, ref moves, ref moveIndex, isRook: true, captures);
             }
-            else if ((kings & squareBoard) != 0) GenKingMoves(this, square, ref moves, ref moveIndex, capturesOnly);
+            else if ((kings & squareBoard) != 0) GenKingMoves(this, square, ref moves, ref moveIndex, captures);
         }
 
         moves = moves.Slice(0, moveIndex);

@@ -86,7 +86,10 @@ public static class MoveGenerator
             byte toSquare = PopLSB(ref movesBoard);
 
             if ((board.occupiedSquares & (1UL << toSquare)) != 0) moves[moveIndex++] = new Move(PromoType.None, MoveType.Capture, fromSquare, toSquare);
-            else if (!capturesOnly) moves[moveIndex++] = new Move(PromoType.None, MoveType.Normal, fromSquare, toSquare);
+            else
+            {
+                if (!capturesOnly) moves[moveIndex++] = new Move(PromoType.None, MoveType.Normal, fromSquare, toSquare);
+            }
         }
     }
 
@@ -102,7 +105,10 @@ public static class MoveGenerator
             byte toSquare = PopLSB(ref movesBoard);
 
             if ((board.occupiedSquares & (1UL << toSquare)) != 0) moves[moveIndex++] = new Move(PromoType.None, MoveType.Capture, fromSquare, toSquare);
-            else if (!capturesOnly) moves[moveIndex++] = new Move(PromoType.None, MoveType.Normal, fromSquare, toSquare);
+            else
+            {
+                if (!capturesOnly) moves[moveIndex++] = new Move(PromoType.None, MoveType.Normal, fromSquare, toSquare);
+            }
         }
     }
 
@@ -119,11 +125,17 @@ public static class MoveGenerator
             byte toSquare = PopLSB(ref movesBoard);
 
             if ((board.occupiedSquares & (1UL << toSquare)) != 0) moves[moveIndex++] = new Move(PromoType.None, MoveType.Capture, fromSquare, toSquare);
-            else if (!capturesOnly) moves[moveIndex++] = new Move(PromoType.None, MoveType.Normal, fromSquare, toSquare);
+            else
+            {
+                if (!capturesOnly) moves[moveIndex++] = new Move(PromoType.None, MoveType.Normal, fromSquare, toSquare);
+            }
         }
 
-        GenKingsideCastle(board, color, fromSquare, ref moves, ref moveIndex);
-        GenQueensideCastle(board, color, fromSquare, ref moves, ref moveIndex);
+        if (!capturesOnly)
+        {
+            GenKingsideCastle(board, color, fromSquare, ref moves, ref moveIndex);
+            GenQueensideCastle(board, color, fromSquare, ref moves, ref moveIndex);
+        }
     }
 
     public static void GenKingsideCastle(Board board, Color color, byte fromSquare, ref Span<Move> moves, ref int moveIndex)
